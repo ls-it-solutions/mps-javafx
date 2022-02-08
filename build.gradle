@@ -80,7 +80,7 @@ task buildLanguages(type: BuildLanguages, dependsOn: [resolveMps, resolveAllLang
 }
 
 task packageLanguages(type: Zip, dependsOn: buildLanguages) {
-    archiveBaseName = 'com.dslfoundry.javafx'
+    archiveBaseName = 'com.dslfoundry'
     from artifactsDir
     include 'com.dslfoundry.javafx/**'
 }

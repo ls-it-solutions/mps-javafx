@@ -60,6 +60,7 @@ task resolveAllLanguageLibs(type: Copy) {
 }
 
 def javafxVersion = project.findProperty("javafxVersion")
+def pluginVersion = project.findProperty("pluginVersion")
 
 // Default arguments for ant scripts
 def defaultScriptArgs = [
@@ -80,7 +81,7 @@ task buildLanguages(type: BuildLanguages, dependsOn: [resolveMps, resolveAllLang
 }
 
 task packageLanguages(type: Zip, dependsOn: buildLanguages) {
-    archiveBaseName = 'com.dslfoundry'
+    archiveBaseName = 'com.dslfoundry.javafx'
     from artifactsDir
     include 'com.dslfoundry.javafx/**'
 }
@@ -90,15 +91,15 @@ task setup {
     description 'Set up MPS project libraries. Libraries are read in from projectlibraries.properties file.'
 }
 
-def releaseArtifacts = ["${artifactsDir}/JavaFX/javafx-${javafxVersion}.zip"]
+def releaseArtifacts = ["${artifactsDir}/JavaFX/javafx-${javafxVersion}-${pluginVersion}.zip"]
 
 github {
     owner = 'DSLFoundry'
     repo = 'mps-javafx'
     token =  System.getenv().GITHUB_TOKEN != null ? System.getenv().GITHUB_TOKEN : "empty"
-    tagName =  "v-$javafxVersion"
+    tagName =  "v-$javafxVersion-$pluginVersion"
     targetCommitish = System.getenv().CI_COMMIT_SHA != null ? System.getenv().CI_COMMIT_SHA : "master"
-    name =  "JavaFX stubs v$javafxVersion"
+    name =  "JavaFX stubs v$javafxVersion (plugin v$pluginVersion)"
     assets = releaseArtifacts
     // body = ReleaseNotes.getReleaseNotes(file("RELEASE_NOTES.md"))
 }
@@ -118,13 +119,13 @@ publishing {
     publications {
         gpr(MavenPublication) {
             groupId = 'com.dslfoundry.javafx'
-            artifactId = 'javafx'
-            version = "$javafxVersion"
+            artifactId = 'plugin'
+            version = "$javafxVersion-$pluginVersion"
             
             artifacts = releaseArtifacts
             pom {
                 name = "JavaFX stubs"
-                url = "https://github.com/DSLFoundry/`mps-javafx"
+                url = "https://github.com/DSLFoundry/mps-javafx"
             }
         }
     }

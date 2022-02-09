@@ -147,6 +147,12 @@
         <node concept="NbPM2" id="6aa2uX208oG" role="aVJcq" />
       </node>
     </node>
+    <node concept="2kB4xC" id="4nwVVdcFs6n" role="1l3spd">
+      <property role="TrG5h" value="plugin.version" />
+      <node concept="aVJcg" id="4nwVVdcFs6o" role="aVJcv">
+        <node concept="NbPM2" id="4nwVVdcFs6p" role="aVJcq" />
+      </node>
+    </node>
     <node concept="2sgV4H" id="Q9h$0vYOnv" role="1l3spa">
       <ref role="1l3spb" to="ffeo:3IKDaVZmzS6" resolve="mps" />
       <node concept="398BVA" id="Q9h$0vYOnw" role="2JcizS">
@@ -163,6 +169,12 @@
             <ref role="3Mxwex" node="6aa2uX208ox" resolve="javafx.version" />
           </node>
           <node concept="3Mxwew" id="6aa2uX208q_" role="3MwsjC">
+            <property role="3MwjfP" value="-" />
+          </node>
+          <node concept="3Mxwey" id="4nwVVdcFs6H" role="3MwsjC">
+            <ref role="3Mxwex" node="4nwVVdcFs6n" resolve="plugin.version" />
+          </node>
+          <node concept="3Mxwew" id="4nwVVdcFs6G" role="3MwsjC">
             <property role="3MwjfP" value=".zip" />
           </node>
         </node>

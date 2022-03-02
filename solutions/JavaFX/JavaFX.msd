@@ -5,14 +5,14 @@
       <sourceRoot location="models" />
     </modelRoot>
     <modelRoot contentPath="C:/GIT/mps-javafx/javafx-sdk-11.0.2/lib" type="java_classes">
-      <sourceRoot location="javafx-swt.jar" />
-      <sourceRoot location="javafx.base.jar" />
-      <sourceRoot location="javafx.controls.jar" />
-      <sourceRoot location="javafx.fxml.jar" />
-      <sourceRoot location="javafx.graphics.jar" />
       <sourceRoot location="javafx.media.jar" />
+      <sourceRoot location="javafx-swt.jar" />
       <sourceRoot location="javafx.swing.jar" />
+      <sourceRoot location="javafx.controls.jar" />
+      <sourceRoot location="javafx.graphics.jar" />
+      <sourceRoot location="javafx.base.jar" />
       <sourceRoot location="javafx.web.jar" />
+      <sourceRoot location="javafx.fxml.jar" />
     </modelRoot>
   </models>
   <facets>

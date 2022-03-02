@@ -33,6 +33,9 @@
         <reference id="5617550519002745380" name="script" index="1l3spb" />
         <child id="4129895186893471026" name="artifacts" index="2JcizS" />
       </concept>
+      <concept id="2750015747481074431" name="jetbrains.mps.build.structure.BuildLayout_Files" flags="ng" index="2HvfSZ">
+        <child id="2750015747481074432" name="path" index="2HvfZ0" />
+      </concept>
       <concept id="4380385936562003279" name="jetbrains.mps.build.structure.BuildString" flags="ng" index="NbPM2">
         <child id="4903714810883783243" name="parts" index="3MwsjC" />
       </concept>
@@ -126,7 +129,9 @@
         <property id="2889113830911481881" name="deployFolderName" index="3ZfqAx" />
         <child id="8137134783396676835" name="location" index="1HemKq" />
       </concept>
-      <concept id="3189788309731840247" name="jetbrains.mps.build.mps.structure.BuildMps_Solution" flags="ng" index="1E1JtA" />
+      <concept id="3189788309731840247" name="jetbrains.mps.build.mps.structure.BuildMps_Solution" flags="ng" index="1E1JtA">
+        <property id="269707337715731330" name="sourcesKind" index="aoJFB" />
+      </concept>
       <concept id="322010710375871467" name="jetbrains.mps.build.mps.structure.BuildMps_AbstractModule" flags="ng" index="3LEN3z">
         <property id="322010710375892619" name="uuid" index="3LESm3" />
         <child id="322010710375956261" name="path" index="3LF7KH" />
@@ -187,6 +192,14 @@
         </node>
         <node concept="m$_wl" id="Q9h$0vYOnT" role="39821P">
           <ref role="m_rDy" node="Q9h$0vYOnC" resolve="JavaFX" />
+          <node concept="2HvfSZ" id="7aRxbQfPeyq" role="39821P">
+            <node concept="398BVA" id="7aRxbQfPeyI" role="2HvfZ0">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="7aRxbQfPeyO" role="iGT6I">
+                <property role="2Ry0Am" value="javafx-sdk-11.0.2" />
+              </node>
+            </node>
+          </node>
           <node concept="pUk6x" id="Q9h$0vYOnU" role="pUk7w" />
         </node>
       </node>
@@ -230,6 +243,7 @@
       <node concept="1E1JtA" id="Q9h$0vYOnA" role="2G$12L">
         <property role="TrG5h" value="JavaFX" />
         <property role="3LESm3" value="69f76f19-b3ff-4833-843a-036cd0ceb0d1" />
+        <property role="aoJFB" value="eYcmk9QOli/sources" />
         <node concept="398BVA" id="6aa2uX208q1" role="3LF7KH">
           <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
           <node concept="2Ry0Ak" id="6aa2uX208q6" role="iGT6I">
@@ -246,14 +260,6 @@
           <property role="3ZfqAx" value="models" />
           <property role="1Hdu6h" value="true" />
           <property role="1HemKv" value="true" />
-          <node concept="3LXTmp" id="6aa2uX206E$" role="1HemKq">
-            <node concept="398BVA" id="6aa2uX208qf" role="3LXTmr">
-              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-              <node concept="2Ry0Ak" id="6aa2uX208qi" role="iGT6I">
-                <property role="2Ry0Am" value="javafx-sdk-11.0.2" />
-              </node>
-            </node>
-          </node>
           <node concept="3LXTmp" id="Q9h$0vYOo0" role="1HemKq">
             <node concept="398BVA" id="6aa2uX208qp" role="3LXTmr">
               <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />

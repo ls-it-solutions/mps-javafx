@@ -57,7 +57,9 @@
     <mkdir dir="${build.tmp}/default/JavaFX.jar/META-INF" />
     <echoxml file="${build.tmp}/default/JavaFX.jar/META-INF/module.xml">
       <module namespace="JavaFX" type="solution" uuid="69f76f19-b3ff-4833-843a-036cd0ceb0d1">
-        <dependencies />
+        <dependencies>
+          <module ref="6354ebe7-c22a-4a0f-ac54-50b52ab9b065(JDK)" kind="cl" />
+        </dependencies>
         <uses />
         <classpath>
           <entry path="." />
@@ -70,9 +72,6 @@
       <fileset dir="${javafx.home}/solutions/JavaFX/source_gen" includes="**/trace.info, **/exports, **/*.mps, **/checkpoints" />
       <fileset dir="${build.tmp}/default/JavaFX.jar" />
     </jar>
-    <copyModels todir="${build.tmp}/customProcessors/copyModels/javafx-sdk-11.0.2">
-      <fileset dir="${javafx.home}/javafx-sdk-11.0.2" />
-    </copyModels>
     <copyModels todir="${build.tmp}/customProcessors/copyModels/solutions-JavaFX-models">
       <fileset dir="${javafx.home}/solutions/JavaFX/models" includes="**/*.mps, **/*.mpsr, **/.model" />
     </copyModels>
@@ -84,10 +83,10 @@
         <exclude name="**/*.mps" />
       </fileset>
       <zipfileset file="${javafx.home}/solutions/JavaFX/JavaFX.msd" prefix="module" />
-      <zipfileset dir="${build.tmp}/customProcessors/copyModels/javafx-sdk-11.0.2" prefix="module/models" />
       <zipfileset dir="${build.tmp}/customProcessors/copyModels/solutions-JavaFX-models" prefix="module/models" />
     </jar>
     <zip destfile="${build.layout}/javafx-${javafx.version}-${plugin.version}.zip">
+      <zipfileset dir="${javafx.home}/javafx-sdk-11.0.2" prefix="JavaFX" />
       <fileset dir="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip" />
     </zip>
     <echo file="${build.layout}/build.properties">JavaFX.javafx.version=${javafx.version}${line.separator}JavaFX.plugin.version=${plugin.version}${line.separator}mps.build.number=${mps.build.number}${line.separator}mps.date=${mps.date}${line.separator}mps.build.vcs.number=${mps.build.vcs.number}${line.separator}mps.teamcity.buildConfName=${mps.teamcity.buildConfName}${line.separator}mps.idea.platform.build.number=${mps.idea.platform.build.number}${line.separator}mps.mps.build.counter=${mps.mps.build.counter}${line.separator}mpsBootstrapCore.version.major=${mpsBootstrapCore.version.major}${line.separator}mpsBootstrapCore.version.minor=${mpsBootstrapCore.version.minor}${line.separator}mpsBootstrapCore.version.bugfixNr=${mpsBootstrapCore.version.bugfixNr}${line.separator}mpsBootstrapCore.version.eap=${mpsBootstrapCore.version.eap}${line.separator}mpsBootstrapCore.version=${mpsBootstrapCore.version}</echo>
@@ -114,9 +113,10 @@
   
   <target name="check" depends="test" />
   
-  <target name="generate" depends="declare-mps-tasks">
+  <target name="generate" depends="declare-mps-tasks, fetchDependencies">
     <echo message="generating" />
     <generate strictMode="true" parallelMode="true" parallelThreads="8" useInplaceTransform="false" hideWarnings="false" createStaticRefs="true" fork="true" skipUnmodifiedModels="${mps.generator.skipUnmodifiedModels}" logLevel="${mps.ant.log}">
+      <library file="${artifacts.mps}/languages/mps-stubs.jar" />
       <chunk>
         <module file="${javafx.home}/solutions/JavaFX/JavaFX.msd" />
       </chunk>

@@ -44,6 +44,7 @@
         <version>${javafx.version}</version>
         <vendor url="https://openjfx.io/">OpenJFX</vendor>
         <depends>jetbrains.mps.core</depends>
+        <depends>jetbrains.mps.build</depends>
         <depends>com.intellij.modules.platform</depends>
         
         <extensions defaultExtensionNs="com.intellij">
@@ -61,32 +62,67 @@
           <module ref="6354ebe7-c22a-4a0f-ac54-50b52ab9b065(JDK)" kind="cl" />
         </dependencies>
         <uses />
-        <classpath>
-          <entry path="." />
-        </classpath>
-        <sources jar="JavaFX-src.jar" descriptor="JavaFX.msd" />
+        <library jar="../../lib/javafx.web.jar" />
+        <library jar="../../lib/javafx.controls.jar" />
+        <library jar="../../lib/javafx-swt.jar" />
+        <library jar="../../lib/javafx.swing.jar" />
+        <library jar="../../lib/javafx.base.jar" />
+        <library jar="../../lib/javafx.media.jar" />
+        <library jar="../../lib/javafx.fxml.jar" />
+        <library jar="../../lib/javafx.graphics.jar" />
+        <sources jar="." descriptor="JavaFX.msd" />
       </module>
     </echoxml>
     <jar destfile="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages/JavaFX/JavaFX.jar" duplicate="preserve">
-      <fileset dir="${build.tmp}/java/out/JavaFX" />
-      <fileset dir="${javafx.home}/solutions/JavaFX/source_gen" includes="**/trace.info, **/exports, **/*.mps, **/checkpoints" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/JavaFX.msd" prefix="module" />
       <fileset dir="${build.tmp}/default/JavaFX.jar" />
     </jar>
-    <copyModels todir="${build.tmp}/customProcessors/copyModels/solutions-JavaFX-models">
-      <fileset dir="${javafx.home}/solutions/JavaFX/models" includes="**/*.mps, **/*.mpsr, **/.model" />
+    <mkdir dir="${build.tmp}/default/JavaFX.build.jar" />
+    <mkdir dir="${build.tmp}/default/JavaFX.build.jar/META-INF" />
+    <echoxml file="${build.tmp}/default/JavaFX.build.jar/META-INF/module.xml">
+      <module namespace="JavaFX.build" type="solution" uuid="2d931a60-e5be-475c-862f-496afb07ba65">
+        <dependencies>
+          <module ref="422c2909-59d6-41a9-b318-40e6256b250f(jetbrains.mps.ide.build)" kind="cl" />
+        </dependencies>
+        <uses>
+          <language id="l:798100da-4f0a-421a-b991-71f8c50ce5d2:jetbrains.mps.build" />
+          <language id="l:0cf935df-4699-4e9c-a132-fa109541cba3:jetbrains.mps.build.mps" />
+        </uses>
+        <classpath>
+          <entry path="." />
+        </classpath>
+        <sources jar="JavaFX.build-src.jar" descriptor="JavaFX.build.msd" />
+      </module>
+    </echoxml>
+    <jar destfile="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages/JavaFX/JavaFX.build.jar" duplicate="preserve">
+      <fileset dir="${build.tmp}/java/out/JavaFX.build" />
+      <fileset dir="${javafx.home}/solutions/JavaFX.build/source_gen" includes="**/trace.info, **/exports, **/*.mps, **/checkpoints" />
+      <fileset dir="${build.tmp}/default/JavaFX.build.jar" />
+    </jar>
+    <copyModels todir="${build.tmp}/customProcessors/copyModels/solutions-JavaFX.build-models">
+      <fileset dir="${javafx.home}/solutions/JavaFX.build/models" includes="**/*.mps, **/*.mpsr, **/.model" />
     </copyModels>
-    <jar destfile="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages/JavaFX/JavaFX-src.jar" duplicate="preserve">
-      <fileset dir="${javafx.home}/solutions/JavaFX/source_gen">
+    <jar destfile="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages/JavaFX/JavaFX.build-src.jar" duplicate="preserve">
+      <fileset dir="${javafx.home}/solutions/JavaFX.build/source_gen">
         <exclude name="**/trace.info" />
         <exclude name="**/exports" />
         <exclude name="**/checkpoints" />
         <exclude name="**/*.mps" />
       </fileset>
-      <zipfileset file="${javafx.home}/solutions/JavaFX/JavaFX.msd" prefix="module" />
-      <zipfileset dir="${build.tmp}/customProcessors/copyModels/solutions-JavaFX-models" prefix="module/models" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX.build/JavaFX.build.msd" prefix="module" />
+      <zipfileset dir="${build.tmp}/customProcessors/copyModels/solutions-JavaFX.build-models" prefix="module/models" />
     </jar>
     <zip destfile="${build.layout}/javafx-${javafx.version}-${plugin.version}.zip">
-      <zipfileset dir="${javafx.home}/javafx-sdk-11.0.2" prefix="JavaFX" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.web.jar" prefix="JavaFX/lib" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.controls.jar" prefix="JavaFX/lib" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx-swt.jar" prefix="JavaFX/lib" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.swing.jar" prefix="JavaFX/lib" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.base.jar" prefix="JavaFX/lib" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.media.jar" prefix="JavaFX/lib" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.fxml.jar" prefix="JavaFX/lib" />
+      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.graphics.jar" prefix="JavaFX/lib" />
+      <zipfileset dir="${javafx.home}/javafx-sdk-11.0.2/legal" prefix="JavaFX/legal" />
+      <zipfileset dir="${javafx.home}/javafx-sdk-11.0.2/bin" prefix="JavaFX/bin" />
       <fileset dir="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip" />
     </zip>
     <echo file="${build.layout}/build.properties">JavaFX.javafx.version=${javafx.version}${line.separator}JavaFX.plugin.version=${plugin.version}${line.separator}mps.build.number=${mps.build.number}${line.separator}mps.date=${mps.date}${line.separator}mps.build.vcs.number=${mps.build.vcs.number}${line.separator}mps.teamcity.buildConfName=${mps.teamcity.buildConfName}${line.separator}mps.idea.platform.build.number=${mps.idea.platform.build.number}${line.separator}mps.mps.build.counter=${mps.mps.build.counter}${line.separator}mpsBootstrapCore.version.major=${mpsBootstrapCore.version.major}${line.separator}mpsBootstrapCore.version.minor=${mpsBootstrapCore.version.minor}${line.separator}mpsBootstrapCore.version.bugfixNr=${mpsBootstrapCore.version.bugfixNr}${line.separator}mpsBootstrapCore.version.eap=${mpsBootstrapCore.version.eap}${line.separator}mpsBootstrapCore.version=${mpsBootstrapCore.version}</echo>
@@ -103,7 +139,7 @@
     <delete dir="${build.layout}" />
   </target>
   
-  <target name="compileJava" depends="java.compile.JavaFX" />
+  <target name="compileJava" depends="java.compile.JavaFX.build" />
   
   <target name="processResources" />
   
@@ -116,9 +152,95 @@
   <target name="generate" depends="declare-mps-tasks, fetchDependencies">
     <echo message="generating" />
     <generate strictMode="true" parallelMode="true" parallelThreads="8" useInplaceTransform="false" hideWarnings="false" createStaticRefs="true" fork="true" skipUnmodifiedModels="${mps.generator.skipUnmodifiedModels}" logLevel="${mps.ant.log}">
+      <plugin path="${artifacts.mps}/plugins/mps-build" />
+      <plugin path="${artifacts.mps}/plugins/mps-core" />
+      <library file="${artifacts.mps}/languages/baseLanguage/closures.runtime.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/collections.runtime.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.blTypes.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.classifiers.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.closures.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.collections.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.javadoc.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.jdk7.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.jdk8.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.references.runtime.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.regexp.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.regexp.runtime.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.scopes.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.tuples.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.tuples.runtime.jar" />
+      <library file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguageInternal.jar" />
+      <library file="${artifacts.mps}/languages/editor/jetbrains.mps.editor.runtime.jar" />
+      <library file="${artifacts.mps}/languages/editor/jetbrains.mps.editorlang.runtime.jar" />
+      <library file="${artifacts.mps}/languages/editor/jetbrains.mps.ide.editor.jar" />
+      <library file="${artifacts.mps}/languages/editor/typesystemIntegration.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.baseLanguage.lightweightdsl.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.actions.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.behavior.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.checkedName.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.constraints.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.constraints.rules.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.constraints.rules.kinds.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.constraints.rules.skeleton.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.context.defs.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.context.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.core.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.dataFlow.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.editor.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.findUsages.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.generator.generationContext.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.generator.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.intentions.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.migration.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.modelapi.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.pattern.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.plugin.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.project.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.quotation.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.refactoring.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.resources.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.scopes.runtime.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.script.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.sharedConcepts.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.smodel.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.smodel.query.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.structure.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.textGen.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.traceable.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.typesystem.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.refactoring.participant.jar" />
+      <library file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.typesystemEngine.jar" />
+      <library file="${artifacts.mps}/languages/make/jetbrains.mps.make.facets.jar" />
+      <library file="${artifacts.mps}/languages/make/jetbrains.mps.make.jar" />
+      <library file="${artifacts.mps}/languages/make/jetbrains.mps.make.runtime.jar" />
+      <library file="${artifacts.mps}/languages/make/jetbrains.mps.smodel.resources.jar" />
       <library file="${artifacts.mps}/languages/mps-stubs.jar" />
+      <library file="${artifacts.mps}/languages/plaf/jetbrains.mps.baseLanguage.search.jar" />
+      <library file="${artifacts.mps}/languages/plaf/jetbrains.mps.baseLanguage.util.jar" />
+      <library file="${artifacts.mps}/languages/plaf/jetbrains.mps.ide.platform.jar" />
+      <library file="${artifacts.mps}/languages/plaf/jetbrains.mps.ide.refactoring.platform.jar" />
+      <library file="${artifacts.mps}/languages/runtimes/jetbrains.mps.analyzers.runtime.jar" />
+      <library file="${artifacts.mps}/languages/runtimes/jetbrains.mps.dataFlow.runtime.jar" />
+      <library file="${artifacts.mps}/languages/runtimes/jetbrains.mps.findUsages.runtime.jar" />
+      <library file="${artifacts.mps}/languages/runtimes/jetbrains.mps.lang.behavior.api.jar" />
+      <library file="${artifacts.mps}/languages/runtimes/jetbrains.mps.lang.feedback.context.jar" />
+      <library file="${artifacts.mps}/languages/runtimes/jetbrains.mps.lang.migration.runtime.jar" />
+      <library file="${artifacts.mps}/languages/runtimes/jetbrains.mps.lang.smodel.query.runtime.jar" />
+      <library file="${artifacts.mps}/languages/runtimes/jetbrains.mps.refactoring.runtime.jar" />
+      <library file="${artifacts.mps}/languages/text/jetbrains.mps.lang.text.jar" />
+      <library file="${artifacts.mps}/languages/tools/jetbrains.mps.core.tool.environment.jar" />
+      <library file="${artifacts.mps}/languages/tools/jetbrains.mps.tool.common.jar" />
+      <library file="${artifacts.mps}/languages/util/jetbrains.mps.java.stub.jar" />
+      <library file="${artifacts.mps}/languages/util/jetbrains.mps.kernel.jar" />
+      <library file="${artifacts.mps}/languages/util/jetbrains.mps.lang.makeup.jar" />
+      <library file="${artifacts.mps}/languages/util/jetbrains.mps.project.jar" />
+      <library file="${artifacts.mps}/languages/util/jetbrains.mps.refactoring.jar" />
+      <library file="${artifacts.mps}/languages/util/jetbrains.mps.runtime.jar" />
+      <library file="${artifacts.mps}/languages/xml/jetbrains.mps.core.xml.jar" />
       <chunk>
         <module file="${javafx.home}/solutions/JavaFX/JavaFX.msd" />
+        <module file="${javafx.home}/solutions/JavaFX.build/JavaFX.build.msd" />
       </chunk>
       <jvmargs>
         <arg value="-ea" />
@@ -135,19 +257,19 @@
   
   <target name="makeDependents" />
   
-  <target name="java.compile.JavaFX">
-    <mkdir dir="${javafx.home}/solutions/JavaFX/source_gen" />
-    <mkdir dir="${build.tmp}/java/out/JavaFX" />
-    <javac destdir="${build.tmp}/java/out/JavaFX" fork="true" encoding="utf8" includeantruntime="false" debug="true">
+  <target name="java.compile.JavaFX.build">
+    <mkdir dir="${javafx.home}/solutions/JavaFX.build/source_gen" />
+    <mkdir dir="${build.tmp}/java/out/JavaFX.build" />
+    <javac destdir="${build.tmp}/java/out/JavaFX.build" fork="true" encoding="utf8" includeantruntime="false" debug="true">
       <compilerarg value="-Xlint:none" />
       <src>
-        <path location="${javafx.home}/solutions/JavaFX/source_gen" />
+        <path location="${javafx.home}/solutions/JavaFX.build/source_gen" />
       </src>
       <classpath />
     </javac>
   </target>
   
   <target name="cleanSources">
-    <delete dir="${javafx.home}/solutions/JavaFX/source_gen" />
+    <delete dir="${javafx.home}/solutions/JavaFX.build/source_gen" />
   </target>
 </project>

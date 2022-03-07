@@ -92,7 +92,7 @@ task setup {
     description 'Set up MPS project libraries. Libraries are read in from projectlibraries.properties file.'
 }
 
-def releaseArtifacts = ["${artifactsDir}/JavaFX/javafx-${javafxVersion}-${pluginVersion}.zip"]
+def releaseArtifacts = ["${artifactsDir}/JavaFX"]
 
 github {
     owner = 'DSLFoundry'

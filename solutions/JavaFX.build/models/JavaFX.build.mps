@@ -47,7 +47,6 @@
         <child id="8618885170173601778" name="tail" index="2Ry0An" />
       </concept>
       <concept id="6647099934206700647" name="jetbrains.mps.build.structure.BuildJavaPlugin" flags="ng" index="10PD9b" />
-      <concept id="7389400916848050071" name="jetbrains.mps.build.structure.BuildLayout_Zip" flags="ng" index="3981dG" />
       <concept id="7389400916848050060" name="jetbrains.mps.build.structure.BuildLayout_NamedContainer" flags="ng" index="3981dR">
         <child id="4380385936562148502" name="containerName" index="Nbhlr" />
       </concept>
@@ -83,6 +82,14 @@
       </concept>
       <concept id="4903714810883702017" name="jetbrains.mps.build.structure.BuildVarRefStringPart" flags="ng" index="3Mxwey">
         <reference id="4903714810883702018" name="macro" index="3Mxwex" />
+      </concept>
+      <concept id="202934866059043946" name="jetbrains.mps.build.structure.BuildLayout_EchoProperties" flags="ng" index="1TblL5">
+        <child id="202934866059043948" name="fileName" index="1TblL3" />
+        <child id="202934866059043962" name="entries" index="1TblLl" />
+      </concept>
+      <concept id="202934866059043959" name="jetbrains.mps.build.structure.BuildLayout_EchoPropertyEntry" flags="ng" index="1TblLo">
+        <property id="202934866059043960" name="key" index="1TblLn" />
+        <child id="202934866059043961" name="value" index="1TblLm" />
       </concept>
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
@@ -180,207 +187,219 @@
       </node>
     </node>
     <node concept="1l3spV" id="Q9h$0vYOnP" role="1l3spN">
-      <node concept="3981dG" id="Q9h$0vYOnQ" role="39821P">
-        <node concept="3_J27D" id="Q9h$0vYOnR" role="Nbhlr">
-          <node concept="3Mxwew" id="Q9h$0vYOnS" role="3MwsjC">
-            <property role="3MwjfP" value="javafx-" />
+      <node concept="m$_wl" id="104mW9b69Ud" role="39821P">
+        <ref role="m_rDy" node="Q9h$0vYOnC" resolve="JavaFX" />
+        <node concept="1TblL5" id="104mW9b6a6K" role="39821P">
+          <node concept="1TblLo" id="104mW9b6a99" role="1TblLl">
+            <property role="1TblLn" value="mps.version" />
+            <node concept="NbPM2" id="104mW9b6a9a" role="1TblLm">
+              <node concept="3Mxwey" id="104mW9b6ad3" role="3MwsjC">
+                <ref role="3Mxwex" to="ffeo:5HVSRHdVf2d" resolve="version" />
+              </node>
+            </node>
           </node>
-          <node concept="3Mxwey" id="6aa2uX208qA" role="3MwsjC">
-            <ref role="3Mxwex" node="6aa2uX208ox" resolve="javafx.version" />
+          <node concept="1TblLo" id="104mW9b6abH" role="1TblLl">
+            <property role="1TblLn" value="javafx.version" />
+            <node concept="NbPM2" id="104mW9b6abI" role="1TblLm">
+              <node concept="3Mxwey" id="104mW9b6aju" role="3MwsjC">
+                <ref role="3Mxwex" node="6aa2uX208ox" resolve="javafx.version" />
+              </node>
+            </node>
           </node>
-          <node concept="3Mxwew" id="6aa2uX208q_" role="3MwsjC">
-            <property role="3MwjfP" value="-" />
+          <node concept="1TblLo" id="104mW9b6ai5" role="1TblLl">
+            <property role="1TblLn" value="plugin.version" />
+            <node concept="NbPM2" id="104mW9b6ai6" role="1TblLm">
+              <node concept="3Mxwey" id="104mW9b6ang" role="3MwsjC">
+                <ref role="3Mxwex" node="4nwVVdcFs6n" resolve="plugin.version" />
+              </node>
+            </node>
           </node>
-          <node concept="3Mxwey" id="4nwVVdcFs6H" role="3MwsjC">
-            <ref role="3Mxwex" node="4nwVVdcFs6n" resolve="plugin.version" />
-          </node>
-          <node concept="3Mxwew" id="4nwVVdcFs6G" role="3MwsjC">
-            <property role="3MwjfP" value=".zip" />
+          <node concept="3_J27D" id="104mW9b6a6M" role="1TblL3">
+            <node concept="3Mxwew" id="104mW9b6a97" role="3MwsjC">
+              <property role="3MwjfP" value="version" />
+            </node>
           </node>
         </node>
-        <node concept="m$_wl" id="Q9h$0vYOnT" role="39821P">
-          <ref role="m_rDy" node="Q9h$0vYOnC" resolve="JavaFX" />
-          <node concept="398223" id="2mVkyzXtrn3" role="39821P">
-            <node concept="3_J27D" id="2mVkyzXtrn5" role="Nbhlr">
-              <node concept="3Mxwew" id="2mVkyzXtros" role="3MwsjC">
-                <property role="3MwjfP" value="lib" />
-              </node>
+        <node concept="398223" id="104mW9b69Ue" role="39821P">
+          <node concept="3_J27D" id="104mW9b69Uf" role="Nbhlr">
+            <node concept="3Mxwew" id="104mW9b69Ug" role="3MwsjC">
+              <property role="3MwjfP" value="lib" />
             </node>
-            <node concept="28jJK3" id="2mVkyzXtrou" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtrpP" role="28jJRO">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtrrb" role="iGT6I">
-                  <property role="2Ry0Am" value="solutions" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrrg" role="2Ry0An">
-                    <property role="2Ry0Am" value="JavaFX" />
-                    <node concept="2Ry0Ak" id="2mVkyzXtrrj" role="2Ry0An">
-                      <property role="2Ry0Am" value="lib" />
-                      <node concept="2Ry0Ak" id="2mVkyzXtrro" role="2Ry0An">
-                        <property role="2Ry0Am" value="javafx.web.jar" />
-                      </node>
-                    </node>
-                  </node>
-                </node>
-              </node>
-            </node>
-            <node concept="28jJK3" id="2mVkyzXtrrq" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtrrr" role="28jJRO">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtrrs" role="iGT6I">
-                  <property role="2Ry0Am" value="solutions" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrrt" role="2Ry0An">
-                    <property role="2Ry0Am" value="JavaFX" />
-                    <node concept="2Ry0Ak" id="2mVkyzXtrru" role="2Ry0An">
-                      <property role="2Ry0Am" value="lib" />
-                      <node concept="2Ry0Ak" id="2mVkyzXtrrv" role="2Ry0An">
-                        <property role="2Ry0Am" value="javafx.controls.jar" />
-                      </node>
-                    </node>
-                  </node>
-                </node>
-              </node>
-            </node>
-            <node concept="28jJK3" id="2mVkyzXtrsW" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtrsX" role="28jJRO">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtrsY" role="iGT6I">
-                  <property role="2Ry0Am" value="solutions" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrsZ" role="2Ry0An">
-                    <property role="2Ry0Am" value="JavaFX" />
-                    <node concept="2Ry0Ak" id="2mVkyzXtrt0" role="2Ry0An">
-                      <property role="2Ry0Am" value="lib" />
-                      <node concept="2Ry0Ak" id="2mVkyzXtrt1" role="2Ry0An">
-                        <property role="2Ry0Am" value="javafx-swt.jar" />
-                      </node>
-                    </node>
-                  </node>
-                </node>
-              </node>
-            </node>
-            <node concept="28jJK3" id="2mVkyzXtru$" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtru_" role="28jJRO">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtruA" role="iGT6I">
-                  <property role="2Ry0Am" value="solutions" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtruB" role="2Ry0An">
-                    <property role="2Ry0Am" value="JavaFX" />
-                    <node concept="2Ry0Ak" id="2mVkyzXtruC" role="2Ry0An">
-                      <property role="2Ry0Am" value="lib" />
-                      <node concept="2Ry0Ak" id="2mVkyzXtruD" role="2Ry0An">
-                        <property role="2Ry0Am" value="javafx.swing.jar" />
-                      </node>
-                    </node>
-                  </node>
-                </node>
-              </node>
-            </node>
-            <node concept="28jJK3" id="2mVkyzXtrv2" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtrv3" role="28jJRO">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtrv4" role="iGT6I">
-                  <property role="2Ry0Am" value="solutions" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrv5" role="2Ry0An">
-                    <property role="2Ry0Am" value="JavaFX" />
-                    <node concept="2Ry0Ak" id="2mVkyzXtrv6" role="2Ry0An">
-                      <property role="2Ry0Am" value="lib" />
-                      <node concept="2Ry0Ak" id="2mVkyzXtrv7" role="2Ry0An">
-                        <property role="2Ry0Am" value="javafx.base.jar" />
-                      </node>
-                    </node>
-                  </node>
-                </node>
-              </node>
-            </node>
-            <node concept="28jJK3" id="2mVkyzXtrwQ" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtrwR" role="28jJRO">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtrwS" role="iGT6I">
-                  <property role="2Ry0Am" value="solutions" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrwT" role="2Ry0An">
-                    <property role="2Ry0Am" value="JavaFX" />
-                    <node concept="2Ry0Ak" id="2mVkyzXtrwU" role="2Ry0An">
-                      <property role="2Ry0Am" value="lib" />
-                      <node concept="2Ry0Ak" id="2mVkyzXtrwV" role="2Ry0An">
-                        <property role="2Ry0Am" value="javafx.media.jar" />
-                      </node>
-                    </node>
-                  </node>
-                </node>
-              </node>
-            </node>
-            <node concept="28jJK3" id="2mVkyzXtrxw" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtrxx" role="28jJRO">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtrxy" role="iGT6I">
-                  <property role="2Ry0Am" value="solutions" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrxz" role="2Ry0An">
-                    <property role="2Ry0Am" value="JavaFX" />
-                    <node concept="2Ry0Ak" id="2mVkyzXtrx$" role="2Ry0An">
-                      <property role="2Ry0Am" value="lib" />
-                      <node concept="2Ry0Ak" id="2mVkyzXtrx_" role="2Ry0An">
-                        <property role="2Ry0Am" value="javafx.fxml.jar" />
-                      </node>
-                    </node>
-                  </node>
-                </node>
-              </node>
-            </node>
-            <node concept="28jJK3" id="2mVkyzXtrzw" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtrzx" role="28jJRO">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtrzy" role="iGT6I">
-                  <property role="2Ry0Am" value="solutions" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrzz" role="2Ry0An">
-                    <property role="2Ry0Am" value="JavaFX" />
-                    <node concept="2Ry0Ak" id="2mVkyzXtrz$" role="2Ry0An">
-                      <property role="2Ry0Am" value="lib" />
-                      <node concept="2Ry0Ak" id="2mVkyzXtrz_" role="2Ry0An">
-                        <property role="2Ry0Am" value="javafx.graphics.jar" />
-                      </node>
+          </node>
+          <node concept="28jJK3" id="104mW9b69Uh" role="39821P">
+            <node concept="398BVA" id="104mW9b69Ui" role="28jJRO">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69Uj" role="iGT6I">
+                <property role="2Ry0Am" value="solutions" />
+                <node concept="2Ry0Ak" id="104mW9b69Uk" role="2Ry0An">
+                  <property role="2Ry0Am" value="JavaFX" />
+                  <node concept="2Ry0Ak" id="104mW9b69Ul" role="2Ry0An">
+                    <property role="2Ry0Am" value="lib" />
+                    <node concept="2Ry0Ak" id="104mW9b69Um" role="2Ry0An">
+                      <property role="2Ry0Am" value="javafx.web.jar" />
                     </node>
                   </node>
                 </node>
               </node>
             </node>
           </node>
-          <node concept="398223" id="2mVkyzXtrBI" role="39821P">
-            <node concept="2HvfSZ" id="2mVkyzXoJAJ" role="39821P">
-              <node concept="398BVA" id="2mVkyzXoJAQ" role="2HvfZ0">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXoJB1" role="iGT6I">
-                  <property role="2Ry0Am" value="javafx-sdk-11.0.2" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrHm" role="2Ry0An">
-                    <property role="2Ry0Am" value="legal" />
+          <node concept="28jJK3" id="104mW9b69Un" role="39821P">
+            <node concept="398BVA" id="104mW9b69Uo" role="28jJRO">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69Up" role="iGT6I">
+                <property role="2Ry0Am" value="solutions" />
+                <node concept="2Ry0Ak" id="104mW9b69Uq" role="2Ry0An">
+                  <property role="2Ry0Am" value="JavaFX" />
+                  <node concept="2Ry0Ak" id="104mW9b69Ur" role="2Ry0An">
+                    <property role="2Ry0Am" value="lib" />
+                    <node concept="2Ry0Ak" id="104mW9b69Us" role="2Ry0An">
+                      <property role="2Ry0Am" value="javafx.controls.jar" />
+                    </node>
                   </node>
                 </node>
               </node>
             </node>
-            <node concept="3_J27D" id="2mVkyzXtrBK" role="Nbhlr">
-              <node concept="3Mxwew" id="2mVkyzXtrDU" role="3MwsjC">
-                <property role="3MwjfP" value="legal" />
-              </node>
-            </node>
           </node>
-          <node concept="398223" id="2mVkyzXtrHo" role="39821P">
-            <node concept="2HvfSZ" id="2mVkyzXtrHp" role="39821P">
-              <node concept="398BVA" id="2mVkyzXtrHq" role="2HvfZ0">
-                <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
-                <node concept="2Ry0Ak" id="2mVkyzXtrHr" role="iGT6I">
-                  <property role="2Ry0Am" value="javafx-sdk-11.0.2" />
-                  <node concept="2Ry0Ak" id="2mVkyzXtrHs" role="2Ry0An">
-                    <property role="2Ry0Am" value="bin" />
+          <node concept="28jJK3" id="104mW9b69Ut" role="39821P">
+            <node concept="398BVA" id="104mW9b69Uu" role="28jJRO">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69Uv" role="iGT6I">
+                <property role="2Ry0Am" value="solutions" />
+                <node concept="2Ry0Ak" id="104mW9b69Uw" role="2Ry0An">
+                  <property role="2Ry0Am" value="JavaFX" />
+                  <node concept="2Ry0Ak" id="104mW9b69Ux" role="2Ry0An">
+                    <property role="2Ry0Am" value="lib" />
+                    <node concept="2Ry0Ak" id="104mW9b69Uy" role="2Ry0An">
+                      <property role="2Ry0Am" value="javafx-swt.jar" />
+                    </node>
                   </node>
                 </node>
               </node>
             </node>
-            <node concept="3_J27D" id="2mVkyzXtrHt" role="Nbhlr">
-              <node concept="3Mxwew" id="2mVkyzXtrHu" role="3MwsjC">
-                <property role="3MwjfP" value="bin" />
+          </node>
+          <node concept="28jJK3" id="104mW9b69Uz" role="39821P">
+            <node concept="398BVA" id="104mW9b69U$" role="28jJRO">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69U_" role="iGT6I">
+                <property role="2Ry0Am" value="solutions" />
+                <node concept="2Ry0Ak" id="104mW9b69UA" role="2Ry0An">
+                  <property role="2Ry0Am" value="JavaFX" />
+                  <node concept="2Ry0Ak" id="104mW9b69UB" role="2Ry0An">
+                    <property role="2Ry0Am" value="lib" />
+                    <node concept="2Ry0Ak" id="104mW9b69UC" role="2Ry0An">
+                      <property role="2Ry0Am" value="javafx.swing.jar" />
+                    </node>
+                  </node>
+                </node>
               </node>
             </node>
           </node>
-          <node concept="pUk6x" id="Q9h$0vYOnU" role="pUk7w" />
+          <node concept="28jJK3" id="104mW9b69UD" role="39821P">
+            <node concept="398BVA" id="104mW9b69UE" role="28jJRO">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69UF" role="iGT6I">
+                <property role="2Ry0Am" value="solutions" />
+                <node concept="2Ry0Ak" id="104mW9b69UG" role="2Ry0An">
+                  <property role="2Ry0Am" value="JavaFX" />
+                  <node concept="2Ry0Ak" id="104mW9b69UH" role="2Ry0An">
+                    <property role="2Ry0Am" value="lib" />
+                    <node concept="2Ry0Ak" id="104mW9b69UI" role="2Ry0An">
+                      <property role="2Ry0Am" value="javafx.base.jar" />
+                    </node>
+                  </node>
+                </node>
+              </node>
+            </node>
+          </node>
+          <node concept="28jJK3" id="104mW9b69UJ" role="39821P">
+            <node concept="398BVA" id="104mW9b69UK" role="28jJRO">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69UL" role="iGT6I">
+                <property role="2Ry0Am" value="solutions" />
+                <node concept="2Ry0Ak" id="104mW9b69UM" role="2Ry0An">
+                  <property role="2Ry0Am" value="JavaFX" />
+                  <node concept="2Ry0Ak" id="104mW9b69UN" role="2Ry0An">
+                    <property role="2Ry0Am" value="lib" />
+                    <node concept="2Ry0Ak" id="104mW9b69UO" role="2Ry0An">
+                      <property role="2Ry0Am" value="javafx.media.jar" />
+                    </node>
+                  </node>
+                </node>
+              </node>
+            </node>
+          </node>
+          <node concept="28jJK3" id="104mW9b69UP" role="39821P">
+            <node concept="398BVA" id="104mW9b69UQ" role="28jJRO">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69UR" role="iGT6I">
+                <property role="2Ry0Am" value="solutions" />
+                <node concept="2Ry0Ak" id="104mW9b69US" role="2Ry0An">
+                  <property role="2Ry0Am" value="JavaFX" />
+                  <node concept="2Ry0Ak" id="104mW9b69UT" role="2Ry0An">
+                    <property role="2Ry0Am" value="lib" />
+                    <node concept="2Ry0Ak" id="104mW9b69UU" role="2Ry0An">
+                      <property role="2Ry0Am" value="javafx.fxml.jar" />
+                    </node>
+                  </node>
+                </node>
+              </node>
+            </node>
+          </node>
+          <node concept="28jJK3" id="104mW9b69UV" role="39821P">
+            <node concept="398BVA" id="104mW9b69UW" role="28jJRO">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69UX" role="iGT6I">
+                <property role="2Ry0Am" value="solutions" />
+                <node concept="2Ry0Ak" id="104mW9b69UY" role="2Ry0An">
+                  <property role="2Ry0Am" value="JavaFX" />
+                  <node concept="2Ry0Ak" id="104mW9b69UZ" role="2Ry0An">
+                    <property role="2Ry0Am" value="lib" />
+                    <node concept="2Ry0Ak" id="104mW9b69V0" role="2Ry0An">
+                      <property role="2Ry0Am" value="javafx.graphics.jar" />
+                    </node>
+                  </node>
+                </node>
+              </node>
+            </node>
+          </node>
         </node>
+        <node concept="398223" id="104mW9b69V1" role="39821P">
+          <node concept="2HvfSZ" id="104mW9b69V2" role="39821P">
+            <node concept="398BVA" id="104mW9b69V3" role="2HvfZ0">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69V4" role="iGT6I">
+                <property role="2Ry0Am" value="javafx-sdk-11.0.2" />
+                <node concept="2Ry0Ak" id="104mW9b69V5" role="2Ry0An">
+                  <property role="2Ry0Am" value="legal" />
+                </node>
+              </node>
+            </node>
+          </node>
+          <node concept="3_J27D" id="104mW9b69V6" role="Nbhlr">
+            <node concept="3Mxwew" id="104mW9b69V7" role="3MwsjC">
+              <property role="3MwjfP" value="legal" />
+            </node>
+          </node>
+        </node>
+        <node concept="398223" id="104mW9b69V8" role="39821P">
+          <node concept="2HvfSZ" id="104mW9b69V9" role="39821P">
+            <node concept="398BVA" id="104mW9b69Va" role="2HvfZ0">
+              <ref role="398BVh" node="6aa2uX208oY" resolve="javafx.home" />
+              <node concept="2Ry0Ak" id="104mW9b69Vb" role="iGT6I">
+                <property role="2Ry0Am" value="javafx-sdk-11.0.2" />
+                <node concept="2Ry0Ak" id="104mW9b69Vc" role="2Ry0An">
+                  <property role="2Ry0Am" value="bin" />
+                </node>
+              </node>
+            </node>
+          </node>
+          <node concept="3_J27D" id="104mW9b69Vd" role="Nbhlr">
+            <node concept="3Mxwew" id="104mW9b69Ve" role="3MwsjC">
+              <property role="3MwjfP" value="bin" />
+            </node>
+          </node>
+        </node>
+        <node concept="pUk6x" id="104mW9b69Vf" role="pUk7w" />
       </node>
     </node>
     <node concept="m$_wf" id="Q9h$0vYOnC" role="3989C9">

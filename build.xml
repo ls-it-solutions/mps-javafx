@@ -33,11 +33,9 @@
   </path>
   
   <target name="assemble" depends="classes, declare-mps-tasks">
-    <mkdir dir="${build.layout}" />
-    <mkdir dir="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip" />
-    <mkdir dir="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX" />
-    <mkdir dir="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/META-INF" />
-    <echoxml file="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/META-INF/plugin.xml">
+    <mkdir dir="${build.layout}/JavaFX" />
+    <mkdir dir="${build.layout}/JavaFX/META-INF" />
+    <echoxml file="${build.layout}/JavaFX/META-INF/plugin.xml">
       <idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
         <id>JavaFX</id>
         <name>JavaFX</name>
@@ -52,8 +50,8 @@
         </extensions>
       </idea-plugin>
     </echoxml>
-    <mkdir dir="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages" />
-    <mkdir dir="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages/JavaFX" />
+    <mkdir dir="${build.layout}/JavaFX/languages" />
+    <mkdir dir="${build.layout}/JavaFX/languages/JavaFX" />
     <mkdir dir="${build.tmp}/default/JavaFX.jar" />
     <mkdir dir="${build.tmp}/default/JavaFX.jar/META-INF" />
     <echoxml file="${build.tmp}/default/JavaFX.jar/META-INF/module.xml">
@@ -73,7 +71,7 @@
         <sources jar="." descriptor="JavaFX.msd" />
       </module>
     </echoxml>
-    <jar destfile="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages/JavaFX/JavaFX.jar" duplicate="preserve">
+    <jar destfile="${build.layout}/JavaFX/languages/JavaFX/JavaFX.jar" duplicate="preserve">
       <zipfileset file="${javafx.home}/solutions/JavaFX/JavaFX.msd" prefix="module" />
       <fileset dir="${build.tmp}/default/JavaFX.jar" />
     </jar>
@@ -94,7 +92,7 @@
         <sources jar="JavaFX.build-src.jar" descriptor="JavaFX.build.msd" />
       </module>
     </echoxml>
-    <jar destfile="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages/JavaFX/JavaFX.build.jar" duplicate="preserve">
+    <jar destfile="${build.layout}/JavaFX/languages/JavaFX/JavaFX.build.jar" duplicate="preserve">
       <fileset dir="${build.tmp}/java/out/JavaFX.build" />
       <fileset dir="${javafx.home}/solutions/JavaFX.build/source_gen" includes="**/trace.info, **/exports, **/*.mps, **/checkpoints" />
       <fileset dir="${build.tmp}/default/JavaFX.build.jar" />
@@ -102,7 +100,7 @@
     <copyModels todir="${build.tmp}/customProcessors/copyModels/solutions-JavaFX.build-models">
       <fileset dir="${javafx.home}/solutions/JavaFX.build/models" includes="**/*.mps, **/*.mpsr, **/.model" />
     </copyModels>
-    <jar destfile="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip/JavaFX/languages/JavaFX/JavaFX.build-src.jar" duplicate="preserve">
+    <jar destfile="${build.layout}/JavaFX/languages/JavaFX/JavaFX.build-src.jar" duplicate="preserve">
       <fileset dir="${javafx.home}/solutions/JavaFX.build/source_gen">
         <exclude name="**/trace.info" />
         <exclude name="**/exports" />
@@ -112,19 +110,40 @@
       <zipfileset file="${javafx.home}/solutions/JavaFX.build/JavaFX.build.msd" prefix="module" />
       <zipfileset dir="${build.tmp}/customProcessors/copyModels/solutions-JavaFX.build-models" prefix="module/models" />
     </jar>
-    <zip destfile="${build.layout}/javafx-${javafx.version}-${plugin.version}.zip">
-      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.web.jar" prefix="JavaFX/lib" />
-      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.controls.jar" prefix="JavaFX/lib" />
-      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx-swt.jar" prefix="JavaFX/lib" />
-      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.swing.jar" prefix="JavaFX/lib" />
-      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.base.jar" prefix="JavaFX/lib" />
-      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.media.jar" prefix="JavaFX/lib" />
-      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.fxml.jar" prefix="JavaFX/lib" />
-      <zipfileset file="${javafx.home}/solutions/JavaFX/lib/javafx.graphics.jar" prefix="JavaFX/lib" />
-      <zipfileset dir="${javafx.home}/javafx-sdk-11.0.2/legal" prefix="JavaFX/legal" />
-      <zipfileset dir="${javafx.home}/javafx-sdk-11.0.2/bin" prefix="JavaFX/bin" />
-      <fileset dir="${build.tmp}/default/javafx-_dl__lbrace_javafx.version_rbrace_-_dl__lbrace_plugin.version_rbrace_.zip" />
-    </zip>
+    <echo file="${build.layout}/JavaFX/version">mps.version=${mpsBootstrapCore.version}${line.separator}javafx.version=${javafx.version}${line.separator}plugin.version=${plugin.version}</echo>
+    <mkdir dir="${build.layout}/JavaFX/lib" />
+    <copy todir="${build.layout}/JavaFX/lib">
+      <fileset file="${javafx.home}/solutions/JavaFX/lib/javafx.web.jar" />
+    </copy>
+    <copy todir="${build.layout}/JavaFX/lib">
+      <fileset file="${javafx.home}/solutions/JavaFX/lib/javafx.controls.jar" />
+    </copy>
+    <copy todir="${build.layout}/JavaFX/lib">
+      <fileset file="${javafx.home}/solutions/JavaFX/lib/javafx-swt.jar" />
+    </copy>
+    <copy todir="${build.layout}/JavaFX/lib">
+      <fileset file="${javafx.home}/solutions/JavaFX/lib/javafx.swing.jar" />
+    </copy>
+    <copy todir="${build.layout}/JavaFX/lib">
+      <fileset file="${javafx.home}/solutions/JavaFX/lib/javafx.base.jar" />
+    </copy>
+    <copy todir="${build.layout}/JavaFX/lib">
+      <fileset file="${javafx.home}/solutions/JavaFX/lib/javafx.media.jar" />
+    </copy>
+    <copy todir="${build.layout}/JavaFX/lib">
+      <fileset file="${javafx.home}/solutions/JavaFX/lib/javafx.fxml.jar" />
+    </copy>
+    <copy todir="${build.layout}/JavaFX/lib">
+      <fileset file="${javafx.home}/solutions/JavaFX/lib/javafx.graphics.jar" />
+    </copy>
+    <mkdir dir="${build.layout}/JavaFX/legal" />
+    <copy todir="${build.layout}/JavaFX/legal">
+      <fileset dir="${javafx.home}/javafx-sdk-11.0.2/legal" />
+    </copy>
+    <mkdir dir="${build.layout}/JavaFX/bin" />
+    <copy todir="${build.layout}/JavaFX/bin">
+      <fileset dir="${javafx.home}/javafx-sdk-11.0.2/bin" />
+    </copy>
     <echo file="${build.layout}/build.properties">JavaFX.javafx.version=${javafx.version}${line.separator}JavaFX.plugin.version=${plugin.version}${line.separator}mps.build.number=${mps.build.number}${line.separator}mps.date=${mps.date}${line.separator}mps.build.vcs.number=${mps.build.vcs.number}${line.separator}mps.teamcity.buildConfName=${mps.teamcity.buildConfName}${line.separator}mps.idea.platform.build.number=${mps.idea.platform.build.number}${line.separator}mps.mps.build.counter=${mps.mps.build.counter}${line.separator}mpsBootstrapCore.version.major=${mpsBootstrapCore.version.major}${line.separator}mpsBootstrapCore.version.minor=${mpsBootstrapCore.version.minor}${line.separator}mpsBootstrapCore.version.bugfixNr=${mpsBootstrapCore.version.bugfixNr}${line.separator}mpsBootstrapCore.version.eap=${mpsBootstrapCore.version.eap}${line.separator}mpsBootstrapCore.version=${mpsBootstrapCore.version}</echo>
   </target>
   

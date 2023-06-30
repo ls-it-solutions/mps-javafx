@@ -1,8 +1,5 @@
 import de.itemis.mps.gradle.*
-
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import org.apache.commons.lang.SystemUtils
 
 //will pull the groovy classes/types from nexus to the classpath
 buildscript {
@@ -12,6 +9,7 @@ buildscript {
     }
     dependencies {
         classpath 'de.itemis.mps:mps-gradle-plugin:1.2.175.cc60dc8'
+        classpath 'commons-lang:commons-lang:2.6'
     }
 }
 
@@ -26,20 +24,74 @@ def artifactsDir = new File(buildDir, 'artifacts')
 
 configurations {
     mps
-	languageLibs
     junitAnt
 }
 
+def javafxVersion = project.findProperty("javafxVersion")
+def pluginVersion = project.findProperty("pluginVersion")
+
 dependencies {
     mps "com.jetbrains:mps:2020.3.+"
-	languageLibs "com.mbeddr:mbeddr:2020.3.+"
     junitAnt 'org.apache.ant:ant-junit:1.10.6'
 }
 
-repositories {
-        maven {
-            url 'https://artifacts.itemis.cloud/repository/maven-mps'
+def jfxArtifacts = ["base", "controls", "fxml", "graphics", "media", "swing", "web"]
+def jfxPlatforms = ["linux", "mac", "win"]
+def jfxPlatformMap = ["linux": "linux", "mac": "macos", "win": "win"]
+def jfxDocs = [/*"javadoc",*/ "sources"]
+def currentPlatform = SystemUtils.IS_OS_MAC?"mac":SystemUtils.IS_OS_LINUX?"linux":SystemUtils.IS_OS_WINDOWS?"win":""
+jfxPlatforms.each { String platform ->
+    def configurationName = "javafx$platform"
+    def configuration = configurations.create(configurationName)
+    // Dependency format: "group:name:version:classifier@extension"
+    // standard extension is .jar
+    jfxArtifacts.each { String jfxArtifact ->
+        dependencies.add(configurationName, "org.openjfx:javafx-$jfxArtifact:$javafxVersion:$platform", { transitive(false) })
+        jfxDocs.each { String doc ->
+            dependencies.add(configurationName, "org.openjfx:javafx-$jfxArtifact:$javafxVersion:$doc", { transitive(false) })
         }
+    }
+    def resolveTask = tasks.register("resolveJavaFxLibsFor$platform", Copy) {
+        dependsOn configuration
+        group "build setup"
+        def jars = configuration.resolve()
+        def fxv = "-$javafxVersion"
+        def fxp = "-$platform"
+        def graphicsJarFilename = "javafx-graphics$fxv${fxp}.jar"
+        def graphicsJar = jars.find { it.name.contains(graphicsJarFilename) }
+        from jars
+        from zipTree(graphicsJar).files.find { it.name == "javafx-swt.jar" }
+        into "$buildDir/lib/$platform"
+        rename {
+            it.replace(fxv, "").replace(fxp, "")
+        }
+    }
+
+    tasks.register("package$platform", Zip) {
+        group "publishing"
+        dependsOn resolveTask, buildLanguages
+        def cpuArchitecture = "x64"
+        archiveBaseName = "plugin-${javafxVersion}-${pluginVersion}"
+        archiveClassifier = "${jfxPlatformMap[platform]}-$cpuArchitecture"
+        from ("${artifactsDir}/JavaFX") {
+            include('JavaFX/**')
+            exclude("JavaFX/lib/**.jar")
+        }
+        from ("$buildDir/lib/$platform") {
+            into("JavaFX/lib/")
+        }
+    }
+}
+def resolveCurrentPlatformLibs = tasks.register("resolveCurrentPlatformLibs", Copy) {
+    dependsOn "resolveJavaFxLibsFor$currentPlatform"
+    from ("$buildDir/lib/$currentPlatform")
+    into ("JavaFX/lib/")
+}
+
+repositories {
+    maven {
+        url 'https://artifacts.itemis.cloud/repository/maven-mps'
+    }
 
     mavenCentral()
 }
@@ -52,22 +104,12 @@ task resolveMps(type: Copy) {
     into "$buildDir/mps"
 }
 
-task resolveAllLanguageLibs(type: Copy) {
-    from {
-        configurations.languageLibs.resolve().collect { zipTree(it) }
-    }
-    into "$buildDir/dependencies"
-}
-
-def javafxVersion = project.findProperty("javafxVersion")
-def pluginVersion = project.findProperty("pluginVersion")
-
 // Default arguments for ant scripts
 def defaultScriptArgs = [
         'mps.home'                          : resolveMps.destinationDir,
         'javafx.home'                       : projectDir,
-		'javafx.version'                    : javafxVersion,
-		'plugin.version'                    : pluginVersion,
+        'javafx.version'                    : javafxVersion,
+        'plugin.version'                    : pluginVersion,
         'build.dir'                         : buildDir,
         'mps.generator.skipUnmodifiedModels': incrementalBuild
 ]
@@ -77,8 +119,9 @@ def defaultScriptClasspath = project.configurations.junitAnt.fileCollection { tr
 ext["itemis.mps.gradle.ant.defaultScriptArgs"] = defaultScriptArgs.collect { "-D$it.key=$it.value".toString() }
 ext["itemis.mps.gradle.ant.defaultScriptClasspath"] = defaultScriptClasspath
 
-task buildLanguages(type: BuildLanguages, dependsOn: [resolveMps, resolveAllLanguageLibs]) {
+task buildLanguages(type: BuildLanguages, dependsOn: [resolveMps, resolveCurrentPlatformLibs]) {
     script "build.xml"
+    outputs.dir("${artifactsDir}/JavaFX")
 }
 
 task packageLanguages(type: Zip, dependsOn: buildLanguages) {
@@ -88,8 +131,8 @@ task packageLanguages(type: Zip, dependsOn: buildLanguages) {
 }
 
 task setup {
-    dependsOn resolveAllLanguageLibs
-    description 'Set up MPS project libraries. Libraries are read in from projectlibraries.properties file.'
+    dependsOn resolveCurrentPlatformLibs
+    description 'Set up JavaFX libraries for MPS'
 }
 
 def releaseArtifacts = ["${artifactsDir}/JavaFX/plugin-${javafxVersion}-${pluginVersion}.zip"]
@@ -97,10 +140,10 @@ def releaseArtifacts = ["${artifactsDir}/JavaFX/plugin-${javafxVersion}-${plugin
 github {
     owner = 'DSLFoundry'
     repo = 'mps-javafx'
-    token =  System.getenv().GITHUB_TOKEN != null ? System.getenv().GITHUB_TOKEN : "empty"
-    tagName =  "v-$javafxVersion-$pluginVersion"
+    token = System.getenv().GITHUB_TOKEN != null ? System.getenv().GITHUB_TOKEN : "empty"
+    tagName = "v-$javafxVersion-$pluginVersion"
     targetCommitish = System.getenv().CI_COMMIT_SHA != null ? System.getenv().CI_COMMIT_SHA : "master"
-    name =  "JavaFX stubs v$javafxVersion (plugin v$pluginVersion)"
+    name = "JavaFX stubs v$javafxVersion (plugin v$pluginVersion)"
     assets = releaseArtifacts
     // body = ReleaseNotes.getReleaseNotes(file("RELEASE_NOTES.md"))
 }
@@ -108,27 +151,46 @@ github {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/DSLFoundry/mps-javafx")
+            name = "ItemisRapidFX"
+            url  = "https://artifacts.itemis.cloud/repository/maven-rapidfx-releases"
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("nexusUsername")
+                password = project.findProperty("nexusPassword")
             }
         }
+//        maven {
+//            name = "GitHubPackages"
+//            url = uri("https://maven.pkg.github.com/DSLFoundry/mps-javafx")
+//            credentials {
+//                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+//                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+//            }
+//        }
     }
-    
+
     publications {
-        gpr(MavenPublication) {
+        maven(MavenPublication) {
             groupId = 'com.dslfoundry.javafx'
             artifactId = 'plugin'
             version = "$javafxVersion-$pluginVersion"
-            
-            artifacts = [packageLanguages]
+
+            artifacts = jfxPlatforms.collect {String platform -> tasks["package$platform"] }
             pom {
                 name = "JavaFX stubs"
                 url = "https://github.com/DSLFoundry/mps-javafx"
             }
         }
+//        gpr(MavenPublication) {
+//            groupId = 'com.dslfoundry.javafx'
+//            artifactId = 'plugin'
+//            version = "$javafxVersion-$pluginVersion"
+//
+//            artifacts = jfxPlatforms.collect {String platform -> tasks["package$platform"] }
+//            pom {
+//                name = "JavaFX stubs"
+//                url = "https://github.com/DSLFoundry/mps-javafx"
+//            }
+//        }
     }
 }
 

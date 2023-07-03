@@ -37,54 +37,61 @@ dependencies {
 
 def jfxArtifacts = ["base", "controls", "fxml", "graphics", "media", "swing", "web"]
 def jfxPlatforms = ["linux", "mac", "win"]
+def targetCpuArchs = ["x64", "aarch64"]
+def sourceCpuArchs = ["x64": "", "aarch64": "-aarch64"]
 def jfxPlatformMap = ["linux": "linux", "mac": "macos", "win": "win"]
 def jfxDocs = [/*"javadoc",*/ "sources"]
 def currentPlatform = SystemUtils.IS_OS_MAC?"mac":SystemUtils.IS_OS_LINUX?"linux":SystemUtils.IS_OS_WINDOWS?"win":""
-jfxPlatforms.each { String platform ->
-    def configurationName = "javafx$platform"
-    def configuration = configurations.create(configurationName)
-    // Dependency format: "group:name:version:classifier@extension"
-    // standard extension is .jar
-    jfxArtifacts.each { String jfxArtifact ->
-        dependencies.add(configurationName, "org.openjfx:javafx-$jfxArtifact:$javafxVersion:$platform", { transitive(false) })
-        jfxDocs.each { String doc ->
-            dependencies.add(configurationName, "org.openjfx:javafx-$jfxArtifact:$javafxVersion:$doc", { transitive(false) })
-        }
-    }
-    def resolveTask = tasks.register("resolveJavaFxLibsFor$platform", Copy) {
-        dependsOn configuration
-        group "build setup"
-        def jars = configuration.resolve()
-        def fxv = "-$javafxVersion"
-        def fxp = "-$platform"
-        def graphicsJarFilename = "javafx-graphics$fxv${fxp}.jar"
-        def graphicsJar = jars.find { it.name.contains(graphicsJarFilename) }
-        from jars
-        from zipTree(graphicsJar).files.find { it.name == "javafx-swt.jar" }
-        into "$buildDir/lib/$platform"
-        rename {
-            it.replace(fxv, "").replace(fxp, "")
-        }
-    }
+def currentCpuArch = SystemUtils.OS_ARCH == "x86_64" ? "x64" : SystemUtils.OS_ARCH
 
-    tasks.register("package$platform", Zip) {
-        group "publishing"
-        dependsOn resolveTask, buildLanguages
-        def cpuArchitecture = "x64"
-        archiveBaseName = "plugin-${javafxVersion}-${pluginVersion}"
-        archiveClassifier = "${jfxPlatformMap[platform]}-$cpuArchitecture"
-        from ("${artifactsDir}/JavaFX") {
-            include('JavaFX/**')
-            exclude("JavaFX/lib/**.jar")
+jfxPlatforms.each { String platform ->
+    targetCpuArchs.takeWhile {!(platform=="win" && it == "aarch64") }.each { String targetCpu ->
+        def sourceCpu = sourceCpuArchs[targetCpu]
+        def configurationName = "javafx$platform$targetCpu"
+        def configuration = configurations.create(configurationName)
+        // Dependency format: "group:name:version:classifier@extension"
+        // standard extension is .jar
+        jfxArtifacts.each { String jfxArtifact ->
+            dependencies.add(configurationName, "org.openjfx:javafx-$jfxArtifact:$javafxVersion:$platform$sourceCpu", { transitive(false) })
+            jfxDocs.each { String doc ->
+                dependencies.add(configurationName, "org.openjfx:javafx-$jfxArtifact:$javafxVersion:$doc", { transitive(false) })
+            }
         }
-        from ("$buildDir/lib/$platform") {
-            into("JavaFX/lib/")
+        def resolveTask = tasks.register("resolveJavaFxLibsFor$platform$targetCpu", Copy) {
+            dependsOn configuration
+            group "build setup"
+            def jars = configuration.resolve()
+            def fxv = "-$javafxVersion"
+            def fxp = "-$platform$sourceCpu"
+            def graphicsJarFilename = "javafx-graphics$fxv${fxp}.jar"
+            def graphicsJar = jars.find { it.name.contains(graphicsJarFilename) }
+            from jars
+            from zipTree(graphicsJar).files.find { it.name == "javafx-swt.jar" }
+            into "$buildDir/lib/$platform-$targetCpu"
+            rename {
+                it.replace(fxv, "").replace(fxp, "")
+            }
+        }
+
+        tasks.register("package$platform$targetCpu", Zip) {
+            group "publishing"
+            dependsOn resolveTask, buildLanguages
+            def cpuArchitecture = targetCpu
+            archiveBaseName = "plugin-${javafxVersion}-${pluginVersion}"
+            archiveClassifier = "${jfxPlatformMap[platform]}-$cpuArchitecture"
+            from("${artifactsDir}/JavaFX") {
+                include('JavaFX/**')
+                exclude("JavaFX/lib/**.jar")
+            }
+            from("$buildDir/lib/$platform-$targetCpu") {
+                into("JavaFX/lib/")
+            }
         }
     }
 }
 def resolveCurrentPlatformLibs = tasks.register("resolveCurrentPlatformLibs", Copy) {
-    dependsOn "resolveJavaFxLibsFor$currentPlatform"
-    from ("$buildDir/lib/$currentPlatform")
+    dependsOn "resolveJavaFxLibsFor$currentPlatform$currentCpuArch"
+    from ("$buildDir/lib/$currentPlatform-$currentCpuArch")
     into ("solutions/JavaFX/lib/")
 }
 
@@ -174,7 +181,11 @@ publishing {
             artifactId = 'plugin'
             version = "$javafxVersion-$pluginVersion"
 
-            artifacts = jfxPlatforms.collect {String platform -> tasks["package$platform"] }
+            artifacts = jfxPlatforms.collect { String platform ->
+                targetCpuArchs.takeWhile { !(platform == "win" && it == "aarch64") }
+                        .collect {
+                            String targetCpu -> tasks["package$platform$targetCpu"] }
+            }.collect().flatten()
             pom {
                 name = "JavaFX stubs"
                 url = "https://github.com/DSLFoundry/mps-javafx"
@@ -194,9 +205,17 @@ publishing {
     }
 }
 
-build.dependsOn buildLanguages
+tasks["build"].dependsOn buildLanguages
 githubRelease.dependsOn build
 
 defaultTasks 'buildLanguages'
 
 publish.dependsOn build
+jfxPlatforms.each { String platform ->
+    targetCpuArchs.takeWhile {!(platform=="win" && it == "aarch64") }
+            .collect {String targetCpu -> publish.dependsOn tasks["package$platform$targetCpu"]} }
+
+publishToMavenLocal.dependsOn build
+jfxPlatforms.each { String platform ->
+    targetCpuArchs.takeWhile {!(platform=="win" && it == "aarch64") }
+            .collect {String targetCpu -> publishToMavenLocal.dependsOn tasks["package$platform$targetCpu"]} }

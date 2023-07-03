@@ -66,3 +66,6 @@ projectlibraries.overrides.properties
 # Test results
 TESTS-*.xml
 /system/
+
+#jar files
+/solutions/JavaFX/lib/*.jar

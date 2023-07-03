@@ -3,16 +3,19 @@
 Adding back the removed JavaFX libraries to JetBrains MPS (>= 2020.3)
 
 ## MPS-Version
-This plugin is for MPS 2020.3
+This plugin is for MPS 2021.3
 
-MPS 2020.3 runs with JBR 11.
+MPS 2021.3 runs with JBR 11.
 
 ## JavaFX-Version
 The JavaFX major version covers the JDK version it runs with.
 
 12 as a major version means, that it would run with JDK 11 and JDK 12.
+JavaFX 19 still works with JDK 11.
 
-This JavaFX plugin will use JavaFX 12.0.2 release and is so usable with JDK 11 and JDK 12.
+This JavaFX plugin will use JavaFX 19.0.2.1 release and is so usable with JDK 11 and above.
+
+JavaFX version 20+ need Java 17.
 
 ## Usage
 
@@ -28,11 +31,11 @@ This JavaFX plugin will use JavaFX 12.0.2 release and is so usable with JDK 11 a
 
 ## lib folder depending on OS
 
-The JavaFX 12.0.2 is available via Maven Repository for download.
+The JavaFX 19.0.2.1 is available via Maven Repository for download.
 ```
     <groupId>org.openjfx</groupId>
     <artifactId>javafx</artifactId>
-    <version>12.0.2</version>
+    <version>19.0.2.1</version>
 ```
 The full downloadable set consists of listed artifacts
 - javafx-base
@@ -50,12 +53,12 @@ The javafx-swt jar needs to be extracted from the containing javafx-graphics jar
 
 The main pom defines following profiles for the value for `javafx.platform`:
 
-| profile id              | javafx.platform    | activated by          |
-|-------------------------|--------------------|-----------------------|
-| linux                   | linux              | os check              |
-| macosx                  | mac                | os check              |
-| windows                 | win                | os check              |
-| javafx.platform.custom  | ${javafx.platform} | existence of property |
+| profile id             | javafx.platform    | activated by          |
+|------------------------|--------------------|-----------------------|
+| linux-<cpu>            | linux              | os and arch check     |
+| macosx-<cpu>           | mac                | os and arch check     |
+| windows-<cpu>          | win                | os and arch check     |
+| javafx.platform.custom | ${javafx.platform} | existence of property |
 
 For all of the artifacts we find the classifiers of the `javafx.platform` property.
 Except for the `javafx.platform.custom` profile.
@@ -68,8 +71,7 @@ The artifacts produced will be execution platform dependent respecting target pl
 cpu and operating system architecture.
 
 For the JavaFX version 12.0.2 there is only the x64 CPU architecture available in the maven repository.
-From the JavaFX version 17 on there are also `aarch` CPU-architectures available.
+From the JavaFX version 17 on there are also `aarch64` CPU-architectures available.
 
-So for now (12.0.2) we will have only 3 classifiers: `linux`, `mac`, `win`.
+We support only 5 classifiers: `linux-aarch64`, `linux-x64`, `mac-aarch64`, `mac-x64`, `win-x64`.
 
-## 

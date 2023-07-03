@@ -421,7 +421,7 @@
       <node concept="2pNNFK" id="6fnU8JwzfUj" role="20twgj">
         <property role="2pNNFO" value="description" />
         <node concept="2pNm8S" id="6fnU8Jwzg1T" role="3o6s8t">
-          <property role="3o6aOc" value="unless in headless mode &lt;ul&gt;&lt;li&gt;ensures that platform is not closed if last javafx window is disposed by calling Platform.setImplicitExit(false).&lt;/li&gt;&lt;li&gt;starts the JavaFX toolkit by calling Plaform.startup().&lt;/li&gt;&lt;/ul&gt;" />
+          <property role="3o6aOc" value="Adding back the removed JavaFX libraries to JetBrains MPS (&gt;= 2020.3).&lt;p/&gt;Unless in headless mode &lt;ul&gt;&lt;li&gt;ensures that platform is not closed if last javafx window is disposed by calling Platform.setImplicitExit(false).&lt;/li&gt;&lt;li&gt;starts the JavaFX toolkit by calling Plaform.startup().&lt;/li&gt;&lt;/ul&gt;" />
         </node>
         <node concept="3o6iSG" id="6fnU8JwzghI" role="3o6s8t" />
       </node>

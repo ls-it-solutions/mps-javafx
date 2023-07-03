@@ -51,7 +51,7 @@
         <depends>jetbrains.mps.build</depends>
         <depends>com.intellij.modules.platform</depends>
         <description>
-          <![CDATA[unless in headless mode <ul><li>ensures that platform is not closed if last javafx window is disposed by calling Platform.setImplicitExit(false).</li><li>starts the JavaFX toolkit by calling Plaform.startup().</li></ul>]]>
+          <![CDATA[Adding back the removed JavaFX libraries to JetBrains MPS (>= 2020.3).<p/>Unless in headless mode <ul><li>ensures that platform is not closed if last javafx window is disposed by calling Platform.setImplicitExit(false).</li><li>starts the JavaFX toolkit by calling Plaform.startup().</li></ul>]]>
           
         </description>
         
@@ -73,7 +73,7 @@
         <depends>jetbrains.mps.build</depends>
         <depends>com.intellij.modules.platform</depends>
         <description>
-          <![CDATA[unless in headless mode <ul><li>ensures that platform is not closed if last javafx window is disposed by calling Platform.setImplicitExit(false).</li><li>starts the JavaFX toolkit by calling Plaform.startup().</li></ul>]]>
+          <![CDATA[Adding back the removed JavaFX libraries to JetBrains MPS (>= 2020.3).<p/>Unless in headless mode <ul><li>ensures that platform is not closed if last javafx window is disposed by calling Platform.setImplicitExit(false).</li><li>starts the JavaFX toolkit by calling Plaform.startup().</li></ul>]]>
           
         </description>
         
